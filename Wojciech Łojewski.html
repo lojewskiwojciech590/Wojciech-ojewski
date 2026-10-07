@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080a12">
+<meta name="description" content="Oficjalna strona młodego pianisty Wojciecha Łojewskiego">
+<title>Wojciech Łojewski | Oficjalna strona młodego pianisty</title>
+
+<script src="https://cdn.jsdelivr.net/npm/tone@14.8.49/build/Tone.js"></script>
+
+<style>
+:root{
+  --bg:#070912;
+  --bg2:#0e1220;
+  --card:rgba(255,255,255,.075);
+  --card2:rgba(255,255,255,.11);
+  --text:#f7f8ff;
+  --muted:#aeb5ca;
+  --border:rgba(255,255,255,.12);
+  --accent:#9b8cff;
+  --accent2:#61d8ff;
+  --pink:#ff72bd;
+  --green:#72e6b2;
+  --shadow:0 25px 70px rgba(0,0,0,.35);
+}
+
+.light{
+  --bg:#f3f5fa;
+  --bg2:#ffffff;
+  --card:rgba(255,255,255,.72);
+  --card2:rgba(255,255,255,.92);
+  --text:#101321;
+  --muted:#60677a;
+  --border:rgba(0,0,0,.1);
+  --accent:#6957dc;
+  --accent2:#008fb8;
+  --pink:#d52c85;
+  --green:#179e6c;
+  --shadow:0 25px 70px rgba(50,60,90,.15);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(155,140,255,.17),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(97,216,255,.12),transparent 28%),
+    radial-gradient(circle at 50% 100%,rgba(255,114,189,.10),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  transition:.35s ease;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:linear-gradient(to bottom,black,transparent);
+  z-index:-3;
+}
+
+.orb{
+  position:fixed;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  filter:blur(70px);
+  opacity:.18;
+  pointer-events:none;
+  z-index:-2;
+  animation:orbMove 15s ease-in-out infinite alternate;
+}
+
+.orb1{
+  background:#8d78ff;
+  left:-100px;
+  top:20%;
+}
+
+.orb2{
+  background:#36d9ff;
+  right:-100px;
+  top:55%;
+  animation-delay:-6s;
+}
+
+.orb3{
+  background:#ff5db1;
+  left:40%;
+  bottom:-180px;
+  animation-delay:-10s;
+}
+
+@keyframes orbMove{
+  from{transform:translate(0,0) scale(1)}
+  to{transform:translate(60px,-50px) scale(1.15)}
+}
+
+.staff{
+  position:fixed;
+  left:-5%;
+  width:110%;
+  height:90px;
+  opacity:.09;
+  pointer-events:none;
+  z-index:-1;
+  animation:staffMove 18s linear infinite;
+}
+
+.staff span{
+  display:block;
+  height:1px;
+  background:var(--text);
+  margin:14px 0;
+}
+
+.staff.top{top:17%}
+.staff.bottom{top:70%;animation-duration:25s;animation-direction:reverse}
+
+@keyframes staffMove{
+  from{transform:translateX(-3%)}
+  to{transform:translateX(3%)}
+}
+
+.note{
+  position:fixed;
+  font-size:28px;
+  color:var(--accent);
+  opacity:.18;
+  pointer-events:none;
+  animation:floatNote linear infinite;
+  z-index:-1;
+}
+
+.n1{left:12%;top:28%;animation-duration:12s}
+.n2{left:82%;top:37%;animation-duration:16s;color:var(--accent2)}
+.n3{left:22%;top:75%;animation-duration:14s;color:var(--pink)}
+.n4{left:70%;top:80%;animation-duration:18s;color:var(--green)}
+
+@keyframes floatNote{
+  0%{transform:translateY(30px) rotate(-10deg)}
+  50%{transform:translateY(-45px) rotate(12deg)}
+  100%{transform:translateY(30px) rotate(-10deg)}
+}
+
+/* INTRO */
+
+.intro{
+  position:fixed;
+  inset:0;
+  background:#060711;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  transition:opacity .7s ease,visibility .7s ease;
+}
+
+.intro.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+.intro-inner{
+  text-align:center;
+  padding:25px;
+}
+
+.intro-symbol{
+  font-size:72px;
+  animation:pianoPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pianoPulse{
+  50%{transform:scale(1.08)}
+}
+
+.intro h1{
+  font-size:clamp(26px,5vw,52px);
+  margin-top:15px;
+  background:linear-gradient(90deg,#fff,#a995ff,#65dbff,#fff);
+  background-size:300%;
+  -webkit-background-clip:text;
+  color:transparent;
+  animation:gradient 4s linear infinite;
+}
+
+@keyframes gradient{
+  to{background-position:300%}
+}
+
+.intro p{
+  color:#8f96ab;
+  margin-top:10px;
+}
+
+/* NAV */
+
+nav{
+  position:fixed;
+  top:15px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(1180px,calc(100% - 30px));
+  padding:10px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(8,10,18,.72);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  z-index:1000;
+}
+
+.logo{
+  font-weight:800;
+  font-size:14px;
+  padding:0 12px;
+  white-space:nowrap;
+}
+
+.logo span{
+  color:var(--accent);
+}
+
+.navlinks{
+  display:flex;
+  gap:4px;
+  flex:1;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.navlinks::-webkit-scrollbar{
+  display:none;
+}
+
+.navlinks button,
+.theme{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:10px 12px;
+  min-height:42px;
+  border-radius:12px;
+  cursor:pointer;
+  white-space:nowrap;
+  font-size:13px;
+  transition:.2s;
+}
+
+.navlinks button:hover,
+.navlinks button.active{
+  background:var(--card2);
+  color:var(--text);
+}
+
+.navlinks button.active{
+  box-shadow:inset 0 0 0 1px var(--border);
+}
+
+.theme{
+  font-size:18px;
+  padding:8px 12px;
+}
+
+/* MAIN */
+
+main{
+  width:min(1180px,calc(100% - 30px));
+  margin:auto;
+  padding-top:110px;
+  padding-bottom:50px;
+}
+
+.tab{
+  display:none;
+  animation:tabIn .45s ease;
+}
+
+.tab.active{
+  display:block;
+}
+
+@keyframes tabIn{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.hero{
+  min-height:calc(100vh - 150px);
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:45px;
+  align-items:center;
+}
+
+.hero-copy{
+  position:relative;
+}
+
+.kicker{
+  display:inline-flex;
+  padding:8px 13px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:var(--card);
+  color:var(--accent2);
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.hero h1{
+  margin-top:18px;
+  font-size:clamp(45px,7vw,92px);
+  line-height:.95;
+  letter-spacing:-.055em;
+}
+
+.hero h1 span{
+  display:block;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--pink));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero-sub{
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.7;
+  margin-top:25px;
+  max-width:650px;
+}
+
+.hero-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:28px;
+}
+
+.btn{
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  min-height:46px;
+  padding:0 18px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  background:var(--card);
+  text-decoration:none;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  background:var(--card2);
+}
+
+.btn.primary{
+  border-color:transparent;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:white;
+}
+
+.hero-photo{
+  position:relative;
+}
+
+.hero-photo:before{
+  content:"";
+  position:absolute;
+  inset:-20px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2),var(--pink));
+  filter:blur(45px);
+  opacity:.25;
+  z-index:-1;
+}
+
+.hero-photo img{
+  width:100%;
+  max-height:650px;
+  object-fit:cover;
+  border-radius:30px;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+.hero-photo .fallback{
+  aspect-ratio:4/5;
+  border-radius:30px;
+  background:
+    linear-gradient(145deg,rgba(155,140,255,.35),rgba(97,216,255,.08)),
+    var(--card);
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:100px;
+}
+
+/* SECTIONS */
+
+.section-head{
+  margin-bottom:35px;
+}
+
+.section-head .small{
+  color:var(--accent2);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+}
+
+.section-head h2{
+  font-size:clamp(34px,5vw,58px);
+  margin-top:8px;
+}
+
+.section-head p{
+  max-width:720px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-top:12px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:26px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+}
+
+.card h3{
+  font-size:20px;
+  margin-bottom:10px;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.75;
+}
+
+.card strong{
+  color:var(--text);
+}
+
+.quote{
+  border-left:3px solid var(--accent);
+  padding-left:18px;
+  margin-top:18px;
+  color:var(--muted);
+  font-style:italic;
+}
+
+/* TIMELINE */
+
+.timeline{
+  position:relative;
+  margin-top:20px;
+}
+
+.timeline:before{
+  content:"";
+  position:absolute;
+  left:12px;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:linear-gradient(var(--accent),var(--accent2),transparent);
+}
+
+.timeline-item{
+  position:relative;
+  padding-left:45px;
+  margin-bottom:28px;
+}
+
+.timeline-item:before{
+  content:"";
+  position:absolute;
+  left:5px;
+  top:8px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 20px var(--accent);
+}
+
+.timeline-year{
+  color:var(--accent2);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:5px;
+}
+
+/* MUSIC */
+
+.music-layout{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:22px;
+}
+
+.music-controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+
+.music-status{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.volume{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+input[type=range]{
+  accent-color:var(--accent);
+  width:130px;
+}
+
+.piano-wrap{
+  overflow-x:auto;
+  padding-bottom:8px;
+}
+
+.piano{
+  position:relative;
+  display:flex;
+  width:max-content;
+  height:260px;
+  margin:auto;
+  padding:0 8px 8px;
+  touch-action:none;
+  user-select:none;
+}
+
+.white{
+  position:relative;
+  width:55px;
+  height:245px;
+  background:linear-gradient(to bottom,#fff,#e6e7ed);
+  border:1px solid #999;
+  border-radius:0 0 8px 8px;
+  box-shadow:0 5px 8px rgba(0,0,0,.25);
+  cursor:pointer;
+  z-index:1;
+}
+
+.white.active{
+  background:linear-gradient(to bottom,#d9d4ff,#aaa1ff);
+}
+
+.black{
+  position:absolute;
+  top:0;
+  width:34px;
+  height:150px;
+  background:linear-gradient(90deg,#090a0d,#383b43,#08090c);
+  border-radius:0 0 6px 6px;
+  box-shadow:0 7px 12px rgba(0,0,0,.45);
+  z-index:3;
+  cursor:pointer;
+}
+
+.black.active{
+  background:linear-gradient(90deg,#51468f,#8c7fff,#312b64);
+}
+
+.key-label{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+  color:#777;
+  font-size:11px;
+  pointer-events:none;
+}
+
+.music-info{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.info-box{
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--card);
+}
+
+.info-box b{
+  display:block;
+  margin-bottom:4px;
+}
+
+.info-box span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* REPERTOIRE */
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+}
+
+.tag{
+  padding:10px 14px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:var(--card);
+  color:var(--muted);
+}
+
+/* ACHIEVEMENTS */
+
+.achievement{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.achievement-icon{
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  border-radius:17px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  font-size:25px;
+}
+
+.achievement small{
+  color:var(--accent2);
+}
+
+.achievement p{
+  margin-top:5px;
+}
+
+/* GALLERY */
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.gallery-placeholder{
+  aspect-ratio:4/3;
+  border-radius:20px;
+  border:1px dashed var(--border);
+  background:var(--card);
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:var(--muted);
+  padding:20px;
+}
+
+/* SOCIAL */
+
+.social-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.social{
+  display:block;
+  text-decoration:none;
+  color:var(--text);
+  padding:24px;
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:22px;
+  transition:.25s;
+}
+
+.social:hover{
+  transform:translateY(-4px);
+  background:var(--card2);
+}
+
+.social b{
+  display:block;
+  margin-bottom:7px;
+}
+
+.social span{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* CONTACT */
+
+.contact{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.email{
+  font-size:clamp(18px,3vw,30px);
+  word-break:break-word;
+  color:var(--accent2);
+  text-decoration:none;
+}
+
+/* FOOTER */
+
+footer{
+  width:min(1180px,calc(100% - 30px));
+  margin:20px auto 30px;
+  padding:25px 0;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:13px;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+}
+
+/* AUDIO OVERLAY */
+
+.audio-message{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:2000;
+  max-width:330px;
+  padding:15px 17px;
+  background:rgba(8,10,18,.9);
+  color:white;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  opacity:0;
+  transform:translateY(20px);
+  pointer-events:none;
+  transition:.3s;
+  font-size:13px;
+}
+
+.audio-message.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+  nav{
+    top:8px;
+    width:calc(100% - 16px);
+    border-radius:16px;
+  }
+
+  .logo{
+    display:none;
+  }
+
+  main{
+    width:calc(100% - 20px);
+    padding-top:82px;
+  }
+
+  .hero{
+    min-height:auto;
+    grid-template-columns:1fr;
+    gap:28px;
+    padding:25px 0 50px;
+  }
+
+  .hero h1{
+    font-size:clamp(43px,14vw,70px);
+  }
+
+  .hero-sub{
+    font-size:16px;
+  }
+
+  .hero-photo{
+    max-width:650px;
+    width:100%;
+    margin:auto;
+  }
+
+  .grid,
+  .contact{
+    grid-template-columns:1fr;
+  }
+
+  .music-info{
+    grid-template-columns:1fr;
+  }
+
+  .social-grid{
+    grid-template-columns:1fr;
+  }
+
+  .gallery{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .card{
+    padding:21px;
+    border-radius:20px;
+  }
+
+  .piano{
+    height:215px;
+  }
+
+  .white{
+    width:43px;
+    height:205px;
+  }
+
+  .black{
+    width:27px;
+    height:125px;
+  }
+
+  .staff{
+    opacity:.06;
+  }
+}
+
+@media(max-width:520px){
+  .navlinks button{
+    padding:9px 10px;
+    font-size:12px;
+  }
+
+  .theme{
+    padding:8px;
+  }
+
+  .hero{
+    padding-top:10px;
+  }
+
+  .hero h1{
+    font-size:46px;
+  }
+
+  .hero-buttons{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .section-head h2{
+    font-size:38px;
+  }
+
+  .gallery{
+    grid-template-columns:1fr;
+  }
+
+  .piano-wrap{
+    margin:0 -10px;
+  }
+
+  .piano{
+    margin-left:5px;
+  }
+
+  footer{
+    flex-direction:column;
+  }
+
+  .audio-message{
+    left:12px;
+    right:12px;
+    bottom:12px;
+    max-width:none;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *:before,
+  *:after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro" id="intro">
+  <div class="intro-inner">
+    <div class="intro-symbol">🎹</div>
+    <h1>Wojciech Łojewski</h1>
+    <p>Oficjalna strona młodego pianisty</p>
+  </div>
+</div>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="staff top">
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<div class="staff bottom">
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<div class="note n1">♪</div>
+<div class="note n2">♫</div>
+<div class="note n3">♪</div>
+<div class="note n4">♩</div>
+
+<nav>
+  <div class="logo">WOJCIECH <span>Ł.</span></div>
+
+  <div class="navlinks">
+    <button class="active" data-tab="start">Start</button>
+    <button data-tab="about">O mnie</button>
+    <button data-tab="story">Jak to się zaczęło</button>
+    <button data-tab="music">Muzyka</button>
+    <button data-tab="repertoire">Repertuar</button>
+    <button data-tab="achievements">Osiągnięcia</button>
+    <button data-tab="gallery">Galeria</button>
+    <button data-tab="media">Media</button>
+    <button data-tab="contact">Kontakt</button>
+  </div>
+
+  <button class="theme" id="themeBtn" aria-label="Zmień motyw">☾</button>
+</nav>
+
+<main>
+
+<!-- START -->
+
+<section class="tab active" id="start">
+  <div class="hero">
+
+    <div class="hero-copy">
+      <div class="kicker">Młody pianista • Warszawa</div>
+
+      <h1>
+        Wojciech
+        <span>Łojewski</span>
+      </h1>
+
+      <p class="hero-sub">
+        Oficjalna strona młodego pianisty. Muzyka, koncerty,
+        repertuar, własne pomysły i droga, która zaczęła się
+        przy pianinie jeszcze w przedszkolu.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="btn primary" data-go="music">
+          🎹 Posłuchaj muzyki
+        </button>
+
+        <button class="btn" data-go="about">
+          Poznaj mnie
+        </button>
+
+        <a class="btn" href="https://www.instagram.com/wojtek_piano40/" target="_blank">
+          Instagram
+        </a>
+
+        <a class="btn" href="https://www.tiktok.com/@wojtek_piano40" target="_blank">
+          TikTok
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-photo">
+      <img
+        src="top.jpg"
+        alt="Wojciech Łojewski przy pianinie"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+      >
+      <div class="fallback" style="display:none">🎹</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- O MNIE -->
+
+<section class="tab" id="about">
+  <div class="section-head">
+    <div class="small">Kilka słów</div>
+    <h2>O mnie</h2>
+    <p>
+      Mam 14 lat i od wielu lat muzyka jest ważną częścią mojego życia.
+      Fortepian stał się dla mnie czymś więcej niż tylko zajęciem.
+    </p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>🎹 Fortepian</h3>
+      <p>
+        W tym roku zaczynam dziewiąty rok nauki gry na fortepianie.
+        Gram przede wszystkim muzykę popularną i rozrywkową,
+        ale lubię również wybrane utwory klasyczne.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🎧 Muzyka ze słuchu</h3>
+      <p>
+        Potrafię czytać nuty, jednak najbardziej naturalne jest dla mnie
+        granie ze słuchu. To właśnie wtedy mam największą swobodę
+        i czuję, że naprawdę tworzę muzykę.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🌙 Wieczorne granie</h3>
+      <p>
+        Jednym z moich ulubionych momentów jest wieczór przy pianinie.
+        To czas, kiedy można odciąć się od problemów, skupić na muzyce
+        i po prostu grać.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🎼 Tworzenie</h3>
+      <p>
+        Pianino jest również miejscem, w którym pojawiają się własne
+        pomysły muzyczne. Czasem zaczyna się od kilku dźwięków,
+        a później powstaje z tego coś większego.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>Co jest dla mnie najważniejsze?</h3>
+    <p>
+      Nie chodzi wyłącznie o perfekcyjne wykonanie. Ważne jest dla mnie
+      to, żeby muzyka miała charakter i żebym podczas grania naprawdę
+      czuł to, co gram.
+    </p>
+
+    <div class="quote">
+      „Najlepiej czuję się przy pianinie wtedy, kiedy mogę po prostu
+      zanurzyć się w muzyce.”
+    </div>
+  </div>
+</section>
+
+<!-- HISTORIA -->
+
+<section class="tab" id="story">
+  <div class="section-head">
+    <div class="small">Początek drogi</div>
+    <h2>Jak to się zaczęło</h2>
+    <p>
+      Historia zaczęła się bardzo wcześnie. Nikt nie musiał mnie
+      specjalnie przekonywać do pianina.
+    </p>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-year">Przedszkole</div>
+      <div class="card">
+        <h3>Pierwsze spotkanie z muzyką</h3>
+        <p>
+          Swoją przygodę z muzyką rozpocząłem w Przedszkolu nr 147
+          w Warszawie przy ulicy Zakrzewskiej. Zajęcia muzyczne
+          szybko mnie zainteresowały.
+        </p>
+
+        <a
+          class="btn"
+          style="margin-top:15px"
+          target="_blank"
+          href="https://www.google.com/maps/search/?api=1&query=Przedszkole%20nr%20147%20Warszawa%20Zakrzewska"
+        >
+          📍 Zobacz lokalizację
+        </a>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-year">Później</div>
+      <div class="card">
+        <h3>Muzyka została na dłużej</h3>
+        <p>
+          Z czasem okazało się, że nie jest to chwilowe zainteresowanie.
+          Muzyka coraz bardziej mnie wciągała i chciałem grać dalej.
+        </p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-year">SMIS • Wilanów</div>
+      <div class="card">
+        <h3>Nowy etap</h3>
+        <p>
+          Kolejnym ważnym miejscem stała się Szkoła Muzyczna SMIS
+          w Wilanowie. To właśnie tam odkryłem między innymi,
+          że mam słuch absolutny.
+        </p>
+
+        <p style="margin-top:12px">
+          Obecnie uczę się w SMIS przy ulicy Gubinowskiej 28/30,
+          w budynku Szkoły Podstawowej nr 300 im. Wandy Rutkiewicz.
+        </p>
+
+        <a
+          class="btn"
+          style="margin-top:15px"
+          target="_blank"
+          href="https://www.google.com/maps/search/?api=1&query=SMIS%20Szko%C5%82a%20Muzyczna%20Gubinowska%2028%2F30%20Warszawa"
+        >
+          📍 Zobacz lokalizację SMIS
+        </a>
+
+        <a
+          class="btn"
+          style="margin-top:15px"
+          target="_blank"
+          href="https://muzyczna.eu/"
+        >
+          SMIS
+        </a>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-year">Pierwsze koncerty</div>
+      <div class="card">
+        <h3>Pierwszy występ</h3>
+        <p>
+          Pierwszy występ był dla mnie stresujący. Zresztą koncerty
+          nadal potrafią wywołać stres. Po występach często analizuję,
+          co można było zrobić lepiej.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MUZYKA -->
+
+<section class="tab" id="music">
+  <div class="section-head">
+    <div class="small">Zagraj razem ze mną</div>
+    <h2>Muzyka</h2>
+    <p>
+      Poniżej znajduje się interaktywny fortepian. Dźwięk wykorzystuje
+      próbki prawdziwego fortepianu koncertowego, a nie syntetyczny generator.
+    </p>
+  </div>
+
+  <div class="music-layout">
+
+    <div class="card">
+      <div class="music-controls">
+
+        <button class="btn primary" id="musicToggle">
+          ▶ Włącz muzykę
+        </button>
+
+        <button class="btn" id="stopMusic">
+          ■ Zatrzymaj
+        </button>
+
+        <div class="volume">
+          Głośność
+          <input id="volume" type="range" min="-30" max="0" value="-12">
+        </div>
+
+        <span class="music-status" id="musicStatus">
+          Ładowanie fortepianu...
+        </span>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="piano-wrap">
+        <div class="piano" id="piano"></div>
+      </div>
+    </div>
+
+    <div class="music-info">
+
+      <div class="info-box">
+        <b>🎧 Brzmienie</b>
+        <span>Próbki akustycznego fortepianu</span>
+      </div>
+
+      <div class="info-box">
+        <b>🎹 Interakcja</b>
+        <span>Dotyk, mysz i klawiatura komputera</span>
+      </div>
+
+      <div class="info-box">
+        <b>🌙 Tło</b>
+        <span>Spokojna, automatyczna progresja</span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- REPERTUAR -->
+
+<section class="tab" id="repertoire">
+  <div class="section-head">
+    <div class="small">To, co gram</div>
+    <h2>Repertuar</h2>
+    <p>
+      Mój repertuar jest przede wszystkim związany z muzyką,
+      której naprawdę lubię słuchać i grać.
+    </p>
+  </div>
+
+  <div class="card">
+
+    <div class="tags">
+      <span class="tag">🎵 Muzyka popularna</span>
+      <span class="tag">🎧 Muzyka rozrywkowa</span>
+      <span class="tag">🎹 Utwory ze słuchu</span>
+      <span class="tag">🎼 Wybrane utwory klasyczne</span>
+      <span class="tag">✨ Własne pomysły</span>
+      <span class="tag">🎶 Aranżacje</span>
+    </div>
+
+  </div>
+
+  <div class="grid" style="margin-top:18px">
+
+    <div class="card">
+      <h3>Granie ze słuchu</h3>
+      <p>
+        Jedna z rzeczy, które najbardziej lubię. Słyszę melodię
+        i próbuję znaleźć ją na klawiaturze, a następnie rozbudować
+        ją o akordy i własne pomysły.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Własne interpretacje</h3>
+      <p>
+        Nawet jeśli utwór jest już dobrze znany, lubię znaleźć sposób,
+        żeby zagrać go trochę po swojemu.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- OSIĄGNIĘCIA -->
+
+<section class="tab" id="achievements">
+  <div class="section-head">
+    <div class="small">Ważne momenty</div>
+    <h2>Osiągnięcia</h2>
+    <p>
+      Nie wszystkie ważne doświadczenia muszą kończyć się nagrodą.
+      Czasem sam występ jest najważniejszą częścią.
+    </p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card achievement">
+      <div class="achievement-icon">🏆</div>
+      <div>
+        <small>26.04.2026 • Serock</small>
+        <h3>Konkurs „Dwa Nurty”</h3>
+        <p>
+          Udział w ogólnopolskim konkursie pianistycznym „Dwa Nurty”
+          w Serocku. Szczególnie ważnym doświadczeniem było zagranie
+          przed jury na profesjonalnym fortepianie.
+        </p>
+      </div>
+    </div>
+
+    <div class="card achievement">
+      <div class="achievement-icon">🎓</div>
+      <div>
+        <small>SMIS • Wilanów</small>
+        <h3>Występy publiczne</h3>
+        <p>
+          Regularne występy w małym składzie podczas wydarzeń
+          organizowanych w SMIS.
+        </p>
+      </div>
+    </div>
+
+    <div class="card achievement">
+      <div class="achievement-icon">🎧</div>
+      <div>
+        <small>Rozwój muzyczny</small>
+        <h3>Słuch absolutny</h3>
+        <p>
+          Podczas nauki w SMIS odkryłem, że posiadam słuch absolutny,
+          co stało się kolejnym elementem mojego muzycznego rozwoju.
+        </p>
+      </div>
+    </div>
+
+    <div class="card achievement">
+      <div class="achievement-icon">📜</div>
+      <div>
+        <small>Pamiątki</small>
+        <h3>Dyplom konkursowy</h3>
+        <p>
+          Z konkursu „Dwa Nurty” zachowałem dyplom i pamiątki,
+          które przypominają o tym doświadczeniu.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALERIA -->
+
+<section class="tab" id="gallery">
+  <div class="section-head">
+    <div class="small">Zdjęcia</div>
+    <h2>Galeria</h2>
+    <p>
+      Miejsce przygotowane na zdjęcia z koncertów, konkursów,
+      występów i codziennego grania.
+    </p>
+  </div>
+
+  <div class="gallery">
+
+    <div class="gallery-placeholder">
+      <div>
+        <div style="font-size:38px">📷</div>
+        <p>Zdjęcie z koncertu</p>
+      </div>
+    </div>
+
+    <div class="gallery-placeholder">
+      <div>
+        <div style="font-size:38px">🎹</div>
+        <p>Gra przy pianinie</p>
+      </div>
+    </div>
+
+    <div class="gallery-placeholder">
+      <div>
+        <div style="font-size:38px">🏆</div>
+        <p>Konkurs „Dwa Nurty”</p>
+      </div>
+    </div>
+
+    <div class="gallery-placeholder">
+      <div>
+        <div style="font-size:38px">🎼</div>
+        <p>Występ w SMIS</p>
+      </div>
+    </div>
+
+    <div class="gallery-placeholder">
+      <div>
+        <div style="font-size:38px">🎧</div>
+        <p>Muzyka i tworzenie</p>
+      </div>
+    </div>
+
+    <div class="gallery-placeholder">
+      <div>
+        <div style="font-size:38px">✨</div>
+        <p>Miejsce na kolejne zdjęcie</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MEDIA -->
+
+<section class="tab" id="media">
+  <div class="section-head">
+    <div class="small">W internecie</div>
+    <h2>Media</h2>
+    <p>
+      Nagrania i materiały muzyczne publikuję przede wszystkim
+      w mediach społecznościowych.
+    </p>
+  </div>
+
+  <div class="social-grid">
+
+    <a
+      class="social"
+      href="https://www.instagram.com/wojtek_piano40/"
+      target="_blank"
+    >
+      <b>Instagram</b>
+      <span>@wojtek_piano40</span>
+    </a>
+
+    <a
+      class="social"
+      href="https://www.tiktok.com/@wojtek_piano40"
+      target="_blank"
+    >
+      <b>TikTok</b>
+      <span>@wojtek_piano40</span>
+    </a>
+
+    <div class="social">
+      <b>🎥 Nagrania</b>
+      <span>Występy i materiały muzyczne publikowane w social mediach.</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- KONTAKT -->
+
+<section class="tab" id="contact">
+  <div class="section-head">
+    <div class="small">Kontakt</div>
+    <h2>Napisz do mnie</h2>
+    <p>
+      Kontakt w sprawach związanych z muzyką, występami
+      i stroną internetową.
+    </p>
+  </div>
+
+  <div class="contact">
+
+    <div class="card">
+      <h3>📧 E-mail</h3>
+
+      <a
+        class="email"
+        href="mailto:lojewskiwojciech590@gmail.com"
+      >
+        lojewskiwojciech590@gmail.com
+      </a>
+
+      <p style="margin-top:15px">
+        Warszawa • Wilanów
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🎹 Wojciech Łojewski</h3>
+
+      <p>
+        Młody pianista, uczeń szkoły podstawowej i szkoły muzycznej
+        SMIS w Warszawie.
+      </p>
+
+      <div class="hero-buttons">
+        <a
+          class="btn"
+          href="https://www.instagram.com/wojtek_piano40/"
+          target="_blank"
+        >
+          Instagram
+        </a>
+
+        <a
+          class="btn"
+          href="https://www.tiktok.com/@wojtek_piano40"
+          target="_blank"
+        >
+          TikTok
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>© 2027 Wojciech Łojewski</span>
+  <span>Muzyka • Fortepian • Pasja</span>
+</footer>
+
+<div class="audio-message" id="audioMessage">
+  Dotknij strony, aby uruchomić muzykę.
+</div>
+
+<script>
+/* =========================================================
+   ZMIANA ZAKŁADEK
+========================================================= */
+
+const tabs = document.querySelectorAll(".tab");
+const navButtons = document.querySelectorAll(".navlinks button");
+const goButtons = document.querySelectorAll("[data-go]");
+
+function showTab(id){
+  tabs.forEach(tab => {
+    tab.classList.toggle("active", tab.id === id);
+  });
+
+  navButtons.forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.tab === id);
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+navButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    showTab(btn.dataset.tab);
+  });
+});
+
+goButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    showTab(btn.dataset.go);
+  });
+});
+
+
+/* =========================================================
+   MOTYW
+========================================================= */
+
+const themeBtn = document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+
+  themeBtn.textContent =
+    document.body.classList.contains("light")
+      ? "☀"
+      : "☾";
+});
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+setTimeout(() => {
+  document.getElementById("intro").classList.add("hide");
+}, 1700);
+
+
+/* =========================================================
+   PRAWDZIWY FORTEPIAN
+   Salamander Grand Piano / Yamaha C5
+========================================================= */
+
+let pianoSampler = null;
+let reverb = null;
+let masterVolume = null;
+let audioReady = false;
+let backgroundPlaying = false;
+let backgroundTimer = null;
+let audioStarting = false;
+
+const statusEl = document.getElementById("musicStatus");
+const toggleBtn = document.getElementById("musicToggle");
+const stopBtn = document.getElementById("stopMusic");
+const volumeEl = document.getElementById("volume");
+const audioMessage = document.getElementById("audioMessage");
+
+const pianoNotes = [
+  "C3","C#3","D3","D#3","E3","F3","F#3","G3","G#3","A3","A#3","B3",
+  "C4","C#4","D4","D#4","E4","F4","F#4","G4","G#4","A4","A#4","B4",
+  "C5","C#5","D5","D#5","E5","F5","F#5","G5","G#5","A5","A#5","B5",
+  "C6"
+];
+
+const blackKeys = new Set([
+  "C#","D#","F#","G#","A#"
+]);
+
+function createPiano(){
+
+  const piano = document.getElementById("piano");
+  piano.innerHTML = "";
+
+  let whiteIndex = 0;
+
+  pianoNotes.forEach(note => {
+
+    const letter = note.replace(/[0-9]/g,"");
+    const octave = note.match(/[0-9]/)[0];
+
+    if(!blackKeys.has(letter)){
+
+      const key = document.createElement("div");
+
+      key.className = "white";
+      key.dataset.note = note;
+
+      key.innerHTML =
+        `<span class="key-label">${note}</span>`;
+
+      piano.appendChild(key);
+
+      whiteIndex++;
+    }
+
+  });
+
+  /*
+    C3 B3 C4 B4 C5 B5 C6
+    Black keys pozycjonujemy względem kolejnych białych.
+  */
+
+  const blackMap = {
+    "C#3":0,
+    "D#3":1,
+    "F#3":3,
+    "G#3":4,
+    "A#3":5,
+
+    "C#4":7,
+    "D#4":8,
+    "F#4":10,
+    "G#4":11,
+    "A#4":12,
+
+    "C#5":14,
+    "D#5":15,
+    "F#5":17,
+    "G#5":18,
+    "A#5":19
+  };
+
+  const whiteWidth = 55;
+
+  Object.entries(blackMap).forEach(([note,index]) => {
+
+    const key = document.createElement("div");
+
+    key.className = "black";
+    key.dataset.note = note;
+
+    key.style.left =
+      `${8 + (index + 1) * whiteWidth - 17}px`;
+
+    piano.appendChild(key);
+
+  });
+
+  /*
+    Klikanie i dotyk.
+  */
+
+  piano.querySelectorAll("[data-note]").forEach(key => {
+
+    const start = e => {
+      e.preventDefault();
+      playNote(key.dataset.note, .78);
+    };
+
+    const end = e => {
+      e.preventDefault();
+      releaseNote(key.dataset.note);
+    };
+
+    key.addEventListener("pointerdown", start);
+    key.addEventListener("pointerup", end);
+    key.addEventListener("pointercancel", end);
+    key.addEventListener("pointerleave", e => {
+      if(e.buttons) end(e);
+    });
+
+  });
+}
+
+createPiano();
+
+
+/* =========================================================
+   ŁADOWANIE SAMPLERA
+========================================================= */
+
+async function initAudio(){
+
+  if(audioStarting) return;
+  audioStarting = true;
+
+  try{
+
+    await Tone.start();
+
+    if(pianoSampler){
+      audioReady = true;
+      audioStarting = false;
+      return;
+    }
+
+    statusEl.textContent = "Ładowanie prawdziwego fortepianu...";
+
+    masterVolume = new Tone.Volume(-12);
+
+    reverb = new Tone.Reverb({
+      decay:3.2,
+      preDelay:.025,
+      wet:.22
+    });
+
+    await reverb.generate();
+
+    pianoSampler = new Tone.Sampler({
+
+      urls:{
+        A0:"A0.mp3",
+        C1:"C1.mp3",
+        "D#1":"Ds1.mp3",
+        "F#1":"Fs1.mp3",
+
+        A1:"A1.mp3",
+        C2:"C2.mp3",
+        "D#2":"Ds2.mp3",
+        "F#2":"Fs2.mp3",
+
+        A2:"A2.mp3",
+        C3:"C3.mp3",
+        "D#3":"Ds3.mp3",
+        "F#3":"Fs3.mp3",
+
+        A3:"A3.mp3",
+        C4:"C4.mp3",
+        "D#4":"Ds4.mp3",
+        "F#4":"Fs4.mp3",
+
+        A4:"A4.mp3",
+        C5:"C5.mp3",
+        "D#5":"Ds5.mp3",
+        "F#5":"Fs5.mp3",
+
+        A5:"A5.mp3",
+        C6:"C6.mp3",
+        "D#6":"Ds6.mp3",
+        "F#6":"Fs6.mp3",
+
+        A6:"A6.mp3",
+        C7:"C7.mp3",
+        "D#7":"Ds7.mp3",
+        "F#7":"Fs7.mp3"
+      },
+
+      release:1.6,
+
+      baseUrl:"https://tonejs.github.io/audio/salamander/"
+    });
+
+    pianoSampler
+      .chain(reverb,masterVolume,Tone.Destination);
+
+    await Tone.loaded();
+
+    audioReady = true;
+
+    statusEl.textContent =
+      "Fortepian gotowy";
+
+    audioStarting = false;
+
+    /*
+      Próbujemy uruchomić muzykę od razu.
+      Jeśli przeglądarka zablokuje autoplay,
+      następny dotyk strony ją uruchomi.
+    */
+
+    startBackgroundMusic();
+
+  }catch(error){
+
+    console.error(error);
+
+    statusEl.textContent =
+      "Kliknij stronę, aby uruchomić dźwięk";
+
+    audioStarting = false;
+
+    showAudioMessage();
+  }
+}
+
+
+/* =========================================================
+   GRANIE POJEDYNCZYCH NUT
+========================================================= */
+
+function playNote(note,velocity=.75){
+
+  if(!audioReady || !pianoSampler) return;
+
+  try{
+
+    pianoSampler.triggerAttack(
+      note,
+      undefined,
+      Math.max(.05,Math.min(1,velocity))
+    );
+
+    highlightKey(note);
+
+  }catch(e){
+    console.error(e);
+  }
+}
+
+function releaseNote(note){
+
+  if(!audioReady || !pianoSampler) return;
+
+  try{
+    pianoSampler.triggerRelease(note);
+  }catch(e){}
+}
+
+function highlightKey(note){
+
+  const key =
+    document.querySelector(
+      `[data-note="${note}"]`
+    );
+
+  if(!key) return;
+
+  key.classList.add("active");
+
+  setTimeout(() => {
+    key.classList.remove("active");
+  },180);
+}
+
+
+/* =========================================================
+   KLAWIATURA KOMPUTERA
+========================================================= */
+
+const keyboardMap = {
+
+  "z":"C3",
+  "s":"C#3",
+  "x":"D3",
+  "d":"D#3",
+  "c":"E3",
+  "v":"F3",
+  "g":"F#3",
+  "b":"G3",
+  "h":"G#3",
+  "n":"A3",
+  "j":"A#3",
+  "m":"B3",
+
+  "q":"C4",
+  "2":"C#4",
+  "w":"D4",
+  "3":"D#4",
+  "e":"E4",
+  "r":"F4",
+  "5":"F#4",
+  "t":"G4",
+  "6":"G#4",
+  "y":"A4",
+  "7":"A#4",
+  "u":"B4",
+
+  "i":"C5",
+  "9":"C#5",
+  "o":"D5",
+  "0":"D#5",
+  "p":"E5"
+};
+
+const pressedKeys = new Set();
+
+window.addEventListener("keydown", async e => {
+
+  if(e.repeat) return;
+
+  const key =
+    e.key.toLowerCase();
+
+  if(key === " "){
+    e.preventDefault();
+    return;
+  }
+
+  const note = keyboardMap[key];
+
+  if(!note) return;
+
+  e.preventDefault();
+
+  if(!audioReady){
+    await initAudio();
+  }
+
+  if(pressedKeys.has(key)) return;
+
+  pressedKeys.add(key);
+
+  playNote(note,.82);
+});
+
+window.addEventListener("keyup", e => {
+
+  const key =
+    e.key.toLowerCase();
+
+  const note = keyboardMap[key];
+
+  if(!note) return;
+
+  pressedKeys.delete(key);
+
+  releaseNote(note);
+});
+
+
+/* =========================================================
+   MUZYKA W TLE
+========================================================= */
+
+const progression = [
+
+  ["C4","E4","G4","B4"],
+  ["A3","C4","E4","G4"],
+  ["F3","A3","C4","E4"],
+  ["G3","B3","D4","G4"]
+
+];
+
+let progressionIndex = 0;
+
+function playBackgroundChord(){
+
+  if(!backgroundPlaying || !audioReady) return;
+
+  const chord =
+    progression[progressionIndex];
+
+  /*
+    Bardzo spokojne arpeggio.
+  */
+
+  chord.forEach((note,index) => {
+
+    setTimeout(() => {
+
+      if(!backgroundPlaying) return;
+
+      try{
+        pianoSampler.triggerAttackRelease(
+          note,
+          "2.8",
+          undefined,
+          .27
+        );
+      }catch(e){}
+
+    },index * 260);
+
+  });
+
+  progressionIndex =
+    (progressionIndex + 1) %
+    progression.length;
+
+  backgroundTimer =
+    setTimeout(
+      playBackgroundChord,
+      4200
+    );
+}
+
+function startBackgroundMusic(){
+
+  if(!audioReady || backgroundPlaying)
+    return;
+
+  backgroundPlaying = true;
+
+  toggleBtn.textContent =
+    "❚❚ Muzyka gra";
+
+  statusEl.textContent =
+    "Spokojna muzyka w tle";
+
+  progressionIndex = 0;
+
+  playBackgroundChord();
+}
+
+function stopBackgroundMusic(){
+
+  backgroundPlaying = false;
+
+  clearTimeout(backgroundTimer);
+
+  backgroundTimer = null;
+
+  toggleBtn.textContent =
+    "▶ Włącz muzykę";
+
+  statusEl.textContent =
+    "Muzyka zatrzymana";
+
+  if(pianoSampler){
+    try{
+      pianoSampler.releaseAll();
+    }catch(e){}
+  }
+}
+
+
+/* =========================================================
+   PRZYCISKI AUDIO
+========================================================= */
+
+toggleBtn.addEventListener("click",async () => {
+
+  if(!audioReady){
+    await initAudio();
+  }
+
+  if(audioReady){
+    if(backgroundPlaying)
+      stopBackgroundMusic();
+    else
+      startBackgroundMusic();
+  }
+});
+
+stopBtn.addEventListener("click",() => {
+  stopBackgroundMusic();
+});
+
+volumeEl.addEventListener("input",() => {
+
+  if(masterVolume){
+    masterVolume.volume.value =
+      Number(volumeEl.value);
+  }
+});
+
+
+/* =========================================================
+   AUTOSTART
+========================================================= */
+
+function showAudioMessage(){
+
+  audioMessage.classList.add("show");
+
+  setTimeout(() => {
+    audioMessage.classList.remove("show");
+  },5000);
+}
+
+async function tryAutostart(){
+
+  try{
+
+    await initAudio();
+
+    if(audioReady){
+
+      /*
+        Jeśli przeglądarka pozwoliła na autoplay,
+        muzyka zaczyna grać natychmiast.
+      */
+
+      startBackgroundMusic();
+
+    }
+
+  }catch(e){
+
+    showAudioMessage();
+
+  }
+}
+
+
+/*
+  Pierwsza próba po załadowaniu.
+*/
+
+setTimeout(() => {
+  tryAutostart();
+},1900);
+
+
+/*
+  Pierwsze dotknięcie / kliknięcie
+uruchamia audio na telefonach,
+które blokują autoplay.
+*/
+
+let firstInteractionHandled = false;
+
+async function firstInteraction(){
+
+  if(firstInteractionHandled) return;
+
+  firstInteractionHandled = true;
+
+  try{
+
+    await initAudio();
+
+    if(audioReady && !backgroundPlaying){
+      startBackgroundMusic();
+    }
+
+  }catch(e){}
+
+  audioMessage.classList.remove("show");
+}
+
+document.addEventListener(
+  "pointerdown",
+  firstInteraction,
+  {passive:true}
+);
+
+
+/* =========================================================
+   DODATKOWE SKRÓTY
+========================================================= */
+
+window.addEventListener("keydown",e => {
+
+  if(e.key === "Escape"){
+    stopBackgroundMusic();
+  }
+
+});
+
+
+/* =========================================================
+   INFORMACJA DLA PRZEGLĄDARKI
+========================================================= */
+
+window.addEventListener("load",() => {
+
+  /*
+    Krótki komunikat tylko wtedy,
+    gdy audio nie zdążyło wystartować.
+  */
+
+  setTimeout(() => {
+
+    if(!backgroundPlaying){
+
+      statusEl.textContent =
+        "Muzyka uruchomi się po pierwszym dotyku, jeśli przeglądarka blokuje autoplay";
+
+    }
+
+  },4500);
+
+});
+</script>
+
+</body>
+</html>
